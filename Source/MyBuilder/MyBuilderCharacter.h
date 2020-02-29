@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "MyBuilderCharacter.generated.h"
 
 UCLASS(config=Game)
-class AMyBuilderCharacter : public ACharacter
+class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -21,6 +22,16 @@ class AMyBuilderCharacter : public ACharacter
 public:
 	AMyBuilderCharacter();
 
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
+
+	/** Our ability system */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
+	class UAbilitySystemComponent* AbilitySystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
+	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -31,6 +42,7 @@ public:
 
 protected:
 
+	void BeginPlay() override;
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 

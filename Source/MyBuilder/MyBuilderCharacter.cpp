@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "AbilitySystemComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMyBuilderCharacter
@@ -43,8 +44,24 @@ AMyBuilderCharacter::AMyBuilderCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	// Our ability system component.
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+}
+
+void AMyBuilderCharacter::BeginPlay()
+{
+   Super::BeginPlay();
+   if(AbilitySystem)
+   {
+		uint16 i = 0;
+    	for (auto &&Ability : Abilities)
+		{
+			GiveAbility(Ability, i++);
+		}
+   }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -74,6 +91,7 @@ void AMyBuilderCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMyBuilderCharacter::OnResetVR);
+
 }
 
 
@@ -131,4 +149,18 @@ void AMyBuilderCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+UAbilitySystemComponent* AMyBuilderCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystem;
+};
+
+void AMyBuilderCharacter::GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId=0)
+{
+	if (HasAuthority() && Ability)
+	{
+		AbilitySystem->GiveAbility(FGameplayAbilitySpec(Ability.GetDefaultObject(), 1, InputId));
+	}
+	AbilitySystem->InitAbilityActorInfo(this, this);
 }
