@@ -9,6 +9,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
+#include "MyAttributeSet.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMyBuilderCharacter
@@ -46,6 +47,7 @@ AMyBuilderCharacter::AMyBuilderCharacter()
 
 	// Our ability system component.
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
+	AttributeSetBase = CreateDefaultSubobject<UMyAttributeSet>(TEXT("AttributeSetBase"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)

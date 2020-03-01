@@ -28,6 +28,9 @@ public:
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
 	class UAbilitySystemComponent* AbilitySystem;
+	
+	UPROPERTY()
+	class UMyAttributeSet* AttributeSetBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
 	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
