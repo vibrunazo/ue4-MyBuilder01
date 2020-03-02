@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "IGetHit.h"
 #include "MyBuilderCharacter.generated.h"
 
 UCLASS(config=Game)
-class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface
+class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, public IIGetHit
 {
 	GENERATED_BODY()
 

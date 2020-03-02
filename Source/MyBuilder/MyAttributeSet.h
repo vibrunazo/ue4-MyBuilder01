@@ -25,9 +25,14 @@ class MYBUILDER_API UMyAttributeSet : public UAttributeSet
 
 public:
 	UMyAttributeSet();
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	UPROPERTY(Category = "Attributes | Health", EditAnywhere, BlueprintReadWrite)
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UMyAttributeSet, Health)
+	
+	UPROPERTY(Category = "Attributes | MaxHealth", EditAnywhere, BlueprintReadWrite)
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UMyAttributeSet, MaxHealth)
 	
 };
