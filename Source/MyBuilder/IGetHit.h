@@ -25,6 +25,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnGetHitByEffect(TSubclassOf<class UGameplayEffect> NewEffect);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
+	void OnDamaged();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnDie();
 
 };

@@ -6,9 +6,18 @@
 #include "IGetHit.h"
 
 UMyAttributeSet::UMyAttributeSet()
-    : MaxHealth(100.0f)
-    , Health(100.0f)
+    : Health(100.0f)
+    , MaxHealth(100.0f)
 {
+}
+
+bool UMyAttributeSet::PreGameplayEffectExecute(struct FGameplayEffectModCallbackData & Data)
+{
+    if (GetHealth() <= 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -26,12 +35,13 @@ void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
         // Handle other health changes such as from healing or direct modifiers
 		// First clamp it
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
-        if (GetHealth() == 0)
+        IIGetHit* HeWhoGetsHit = Cast<IIGetHit>(TargetActor);
+        if (HeWhoGetsHit)
         {
-            IIGetHit* TheInterface = Cast<IIGetHit>(TargetActor);
-            if (TheInterface)
+            HeWhoGetsHit->Execute_OnDamaged (TargetActor);
+            if (GetHealth() == 0)
             {
-                TheInterface->Execute_OnDie (TargetActor);
+                HeWhoGetsHit->Execute_OnDie (TargetActor);
             }
         }
     }
