@@ -23,6 +23,7 @@ class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, p
 public:
 	AMyBuilderCharacter();
 
+	void OnDie_Implementation() override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
 

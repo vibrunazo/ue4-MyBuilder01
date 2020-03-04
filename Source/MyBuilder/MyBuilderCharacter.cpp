@@ -166,3 +166,8 @@ void AMyBuilderCharacter::GiveAbility(TSubclassOf<class UGameplayAbility> Abilit
 	}
 	AbilitySystem->InitAbilityActorInfo(this, this);
 }
+
+void AMyBuilderCharacter::OnDie_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Died on CPP"));
+}
