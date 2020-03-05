@@ -178,3 +178,12 @@ void AMyBuilderCharacter::OnDie_Implementation()
 	DetachFromControllerPendingDestroy();
 	StopAnimMontage();
 }
+
+bool AMyBuilderCharacter::IsAlive_Implementation()
+{
+	if (AttributeSetBase->GetHealth() <= 0)
+	{
+		return false;
+	}
+	return true;
+}

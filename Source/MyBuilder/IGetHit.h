@@ -28,5 +28,7 @@ public:
 	void OnDamaged();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnDie();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
+	bool IsAlive();
 
 };

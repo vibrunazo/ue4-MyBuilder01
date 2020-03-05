@@ -24,6 +24,7 @@ public:
 	AMyBuilderCharacter();
 
 	void OnDie_Implementation() override;
+	bool IsAlive_Implementation() override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
 
