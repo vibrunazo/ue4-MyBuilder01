@@ -25,6 +25,31 @@ void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 	Super::PostGameplayEffectExecute(Data);
     // Get the Target actor, which should be our owner
 	AActor* TargetActor = nullptr;
+    FGameplayEffectContextHandle Context = Data.EffectSpec.GetContext();
+    UAbilitySystemComponent* Source = Context.GetOriginalInstigatorAbilitySystemComponent();
+    // Get the Source actor
+    AActor* SourceActor = nullptr;
+    AController* SourceController = nullptr;
+    if (Source && Source->AbilityActorInfo.IsValid() && Source->AbilityActorInfo->AvatarActor.IsValid())
+    {
+        SourceActor = Source->AbilityActorInfo->AvatarActor.Get();
+        SourceController = Source->AbilityActorInfo->PlayerController.Get();
+        if (SourceController == nullptr && SourceActor != nullptr)
+        {
+            if (APawn* Pawn = Cast<APawn>(SourceActor))
+            {
+                SourceController = Pawn->GetController();
+            }
+        }
+
+        // Set the causer actor based on context if it's set
+        if (Context.GetEffectCauser())
+        {
+            SourceActor = Context.GetEffectCauser();
+        }
+    }
+
+
 	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	{
 		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
@@ -38,7 +63,7 @@ void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
         IIGetHit* HeWhoGetsHit = Cast<IIGetHit>(TargetActor);
         if (HeWhoGetsHit)
         {
-            HeWhoGetsHit->Execute_OnDamaged (TargetActor);
+            HeWhoGetsHit->Execute_OnDamaged (TargetActor, SourceActor);
             if (GetHealth() == 0)
             {
                 HeWhoGetsHit->Execute_OnDie (TargetActor);

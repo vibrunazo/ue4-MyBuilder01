@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayEffectTypes.h"
 #include "IGetHit.generated.h"
 
 // This class does not need to be modified.
@@ -23,9 +24,10 @@ class MYBUILDER_API IIGetHit
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
-	void OnGetHitByEffect(TSubclassOf<class UGameplayEffect> NewEffect);
+	void OnGetHitByEffect(FGameplayEffectSpecHandle NewEffect);
+	// void OnGetHitByEffect(TSubclassOf<class UGameplayEffect> NewEffect);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
-	void OnDamaged();
+	void OnDamaged(AActor* InstigatorActor);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnDie();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
