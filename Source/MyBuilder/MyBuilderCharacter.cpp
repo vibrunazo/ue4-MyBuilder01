@@ -10,6 +10,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
 #include "MyAttributeSet.h"
+// #include "GameplayTagContainer.h"
+// #include "GameplayTags.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMyBuilderCharacter
@@ -169,5 +171,10 @@ void AMyBuilderCharacter::GiveAbility(TSubclassOf<class UGameplayAbility> Abilit
 
 void AMyBuilderCharacter::OnDie_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Died on CPP"));
+	// UE_LOG(LogTemp, Warning, TEXT("Died on CPP"));
+	FGameplayTag MyTag = FGameplayTag::RequestGameplayTag(TEXT("control"));
+	AbilitySystem->RemoveActiveEffectsWithTags(FGameplayTagContainer(MyTag));
+	DisableInput(nullptr);
+	DetachFromControllerPendingDestroy();
+	StopAnimMontage();
 }
