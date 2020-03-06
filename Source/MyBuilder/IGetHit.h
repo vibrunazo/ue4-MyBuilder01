@@ -32,5 +32,7 @@ public:
 	void OnDie();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	bool IsAlive();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
+	void OnHitPause(float Duration);
 
 };
