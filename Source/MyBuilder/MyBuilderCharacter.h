@@ -26,15 +26,16 @@ public:
 	void OnDie_Implementation() override;
 	bool IsAlive_Implementation() override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
+	UFUNCTION(BlueprintCallable, Category = Abilities)
+	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability);
+	void GiveAbilityWithInput(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
+	bool GetHasControl();
 
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
 	class UAbilitySystemComponent* AbilitySystem;
-	
 	UPROPERTY()
 	class UMyAttributeSet* AttributeSetBase;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
 	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
 

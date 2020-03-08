@@ -64,7 +64,7 @@ void AMyBuilderCharacter::BeginPlay()
 		uint16 i = 0;
     	for (auto &&Ability : Abilities)
 		{
-			GiveAbility(Ability, i++);
+			GiveAbilityWithInput(Ability, i++);
 		}
    }
 }
@@ -117,6 +117,7 @@ void AMyBuilderCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Lo
 
 void AMyBuilderCharacter::TurnAtRate(float Rate)
 {
+	if (!GetHasControl()) return;
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
@@ -129,7 +130,7 @@ void AMyBuilderCharacter::LookUpAtRate(float Rate)
 
 void AMyBuilderCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if ((Controller != NULL) && (Value != 0.0f) && GetHasControl())
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -143,7 +144,7 @@ void AMyBuilderCharacter::MoveForward(float Value)
 
 void AMyBuilderCharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if ( (Controller != NULL) && (Value != 0.0f) & GetHasControl())
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -161,7 +162,11 @@ UAbilitySystemComponent* AMyBuilderCharacter::GetAbilitySystemComponent() const
 	return AbilitySystem;
 };
 
-void AMyBuilderCharacter::GiveAbility(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId=0)
+void AMyBuilderCharacter::GiveAbility(TSubclassOf<class UGameplayAbility> Ability)
+{
+	GiveAbilityWithInput(Ability, 0);
+}
+void AMyBuilderCharacter::GiveAbilityWithInput(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId=1)
 {
 	if (HasAuthority() && Ability)
 	{
@@ -186,5 +191,15 @@ bool AMyBuilderCharacter::IsAlive_Implementation()
 	{
 		return false;
 	}
+	return true;
+}
+
+bool AMyBuilderCharacter::GetHasControl()
+{
+	FGameplayTag MyTag = FGameplayTag::RequestGameplayTag(TEXT("status.stun"));
+	// AbilitySystem->RemoveActiveEffectsWithTags(FGameplayTagContainer(MyTag));
+	// TODO this is inneficient, move to a single bool check that changes on event
+	if (AbilitySystem->HasAnyMatchingGameplayTags(FGameplayTagContainer(MyTag))) return false;
+	// if (AbilitySystem->ComponentHasTag(TEXT("status.stun"))) return false;
 	return true;
 }
