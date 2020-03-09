@@ -69,6 +69,13 @@ void AMyBuilderCharacter::BeginPlay()
    }
 }
 
+void AMyBuilderCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (GetAbilityKeyDown(0)) 
+	AbilitySystem->TryActivateAbilityByClass(Abilities[0], true);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -117,6 +124,7 @@ void AMyBuilderCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Lo
 
 void AMyBuilderCharacter::Jump()
 {
+	// TODO change collision disable from jump to tick, so it can disable collision when falling off ledges without jumping
 	if (!GetHasControl()) return;
 	Super::Jump();
 }
@@ -208,4 +216,16 @@ bool AMyBuilderCharacter::GetHasControl()
 	if (AbilitySystem->HasAnyMatchingGameplayTags(FGameplayTagContainer(MyTag))) return false;
 	// if (AbilitySystem->ComponentHasTag(TEXT("status.stun"))) return false;
 	return true;
+}
+
+bool AMyBuilderCharacter::GetAbilityKeyDown(uint8 Index)
+{
+	if (Index >= IsAbilityKeyDown.Num()) return false;
+	return IsAbilityKeyDown[Index];
+}
+
+void AMyBuilderCharacter::SetAbilityKeyDown(uint8 Index, bool IsKeyDown)
+{
+	if (Index >= IsAbilityKeyDown.Num()) return;
+	IsAbilityKeyDown[Index] = IsKeyDown;
 }

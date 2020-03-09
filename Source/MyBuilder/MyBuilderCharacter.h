@@ -22,7 +22,8 @@ class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, p
 	class UCameraComponent* FollowCamera;
 public:
 	AMyBuilderCharacter();
-
+	void Jump() override;
+	void Tick(float DeltaSeconds) override;
 	void OnDie_Implementation() override;
 	bool IsAlive_Implementation() override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -30,9 +31,10 @@ public:
 	void GiveAbility(TSubclassOf<class UGameplayAbility> Ability);
 	void GiveAbilityWithInput(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
 	bool GetHasControl();
-
-	void Jump() override;
-
+	UFUNCTION(BlueprintCallable, Category = Abilities)
+	void SetAbilityKeyDown(uint8 Index, bool IsKeyDown);
+	UFUNCTION(BlueprintCallable, Category = Abilities)
+	bool GetAbilityKeyDown(uint8 Index);
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
 	class UAbilitySystemComponent* AbilitySystem;
@@ -40,6 +42,7 @@ public:
 	class UMyAttributeSet* AttributeSetBase;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
 	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
+	TArray<bool> IsAbilityKeyDown = {false, false, false, false};
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
