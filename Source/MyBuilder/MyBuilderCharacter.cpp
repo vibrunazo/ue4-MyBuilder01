@@ -229,3 +229,8 @@ void AMyBuilderCharacter::SetAbilityKeyDown(uint8 Index, bool IsKeyDown)
 	if (Index >= IsAbilityKeyDown.Num()) return;
 	IsAbilityKeyDown[Index] = IsKeyDown;
 }
+
+void AMyBuilderCharacter::RemoveOneEffect(TSubclassOf<UGameplayEffect> EffectClass)
+{
+	AbilitySystem->RemoveActiveGameplayEffectBySourceEffect(EffectClass, AbilitySystem, 1);
+}

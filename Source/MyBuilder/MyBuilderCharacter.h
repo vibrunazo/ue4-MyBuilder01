@@ -35,6 +35,9 @@ public:
 	void SetAbilityKeyDown(uint8 Index, bool IsKeyDown);
 	UFUNCTION(BlueprintCallable, Category = Abilities)
 	bool GetAbilityKeyDown(uint8 Index);
+	UFUNCTION(BlueprintCallable, Category = Abilities)
+	void RemoveOneEffect(TSubclassOf<class UGameplayEffect> EffectClass);
+
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
 	class UAbilitySystemComponent* AbilitySystem;
