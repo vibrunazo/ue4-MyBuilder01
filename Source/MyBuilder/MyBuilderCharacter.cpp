@@ -76,7 +76,7 @@ void AMyBuilderCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyBuilderCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyBuilderCharacter::MoveForward);
@@ -113,6 +113,12 @@ void AMyBuilderCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Lo
 void AMyBuilderCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		StopJumping();
+}
+
+void AMyBuilderCharacter::Jump()
+{
+	if (!GetHasControl()) return;
+	Super::Jump();
 }
 
 void AMyBuilderCharacter::TurnAtRate(float Rate)

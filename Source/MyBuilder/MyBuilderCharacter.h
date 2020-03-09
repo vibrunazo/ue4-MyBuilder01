@@ -31,6 +31,8 @@ public:
 	void GiveAbilityWithInput(TSubclassOf<class UGameplayAbility> Ability, uint16 InputId);
 	bool GetHasControl();
 
+	void Jump() override;
+
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
 	class UAbilitySystemComponent* AbilitySystem;
