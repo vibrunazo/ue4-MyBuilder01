@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
 #include "MyAttributeSet.h"
+
 // #include "GameplayTagContainer.h"
 // #include "GameplayTags.h"
 
@@ -61,10 +62,9 @@ void AMyBuilderCharacter::BeginPlay()
    Super::BeginPlay();
    if(AbilitySystem)
    {
-		uint16 i = 0;
     	for (auto &&Ability : Abilities)
 		{
-			GiveAbilityWithInput(Ability, i++);
+			GiveAbilityWithInput(Ability.AbilityClass, Ability.Input);
 		}
    }
 }
@@ -72,8 +72,8 @@ void AMyBuilderCharacter::BeginPlay()
 void AMyBuilderCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (GetAbilityKeyDown(0)) 
-	AbilitySystem->TryActivateAbilityByClass(Abilities[0], true);
+	if (GetAbilityKeyDown(0)) ActivateAbilityByInput(0);
+	// AbilitySystem->TryActivateAbilityByClass(Abilities[0].Ability, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -233,4 +233,19 @@ void AMyBuilderCharacter::SetAbilityKeyDown(uint8 Index, bool IsKeyDown)
 void AMyBuilderCharacter::RemoveOneEffect(TSubclassOf<UGameplayEffect> EffectClass)
 {
 	AbilitySystem->RemoveActiveGameplayEffectBySourceEffect(EffectClass, AbilitySystem, 1);
+}
+
+void AMyBuilderCharacter::ActivateAbilityByInput(uint8 Index)
+{
+	for (auto &&Ability : Abilities)
+	{
+		if (Ability.Input == Index)
+		{
+			if ((Ability.CanUseOnAir && GetMovementComponent()->IsFalling())
+			|| (Ability.CanUseOnGround && !GetMovementComponent()->IsFalling()))
+			{
+				AbilitySystem->TryActivateAbilityByClass(Ability.AbilityClass, true);
+			}
+		}
+	}
 }

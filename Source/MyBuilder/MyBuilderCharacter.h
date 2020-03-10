@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "IGetHit.h"
+#include "MyBlueprintFunctionLibrary.h"
 #include "MyBuilderCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -37,6 +38,8 @@ public:
 	bool GetAbilityKeyDown(uint8 Index);
 	UFUNCTION(BlueprintCallable, Category = Abilities)
 	void RemoveOneEffect(TSubclassOf<class UGameplayEffect> EffectClass);
+	UFUNCTION(BlueprintCallable, Category = Abilities)
+	void ActivateAbilityByInput(uint8 Index);
 
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
@@ -44,7 +47,7 @@ public:
 	UPROPERTY()
 	class UMyAttributeSet* AttributeSetBase;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
-	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
+	TArray<FAbilityStruct> Abilities;
 	TArray<bool> IsAbilityKeyDown = {false, false, false, false};
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
