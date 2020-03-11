@@ -25,7 +25,10 @@ class MYBUILDER_API IIGetHit
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnGetHitByEffect(FGameplayEffectSpecHandle NewEffect);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
+	void OnGetHitByEffects(const TArray<FGameplayEffectSpecHandle>& NewEffects);
 	// void OnGetHitByEffect(TSubclassOf<class UGameplayEffect> NewEffect);
+	// const TArray<FGameplayEffectSpecHandle>& NewEffect
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnDamaged(AActor* InstigatorActor);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")

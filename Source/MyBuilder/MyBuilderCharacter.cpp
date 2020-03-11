@@ -147,11 +147,12 @@ void AMyBuilderCharacter::MoveForward(float Value)
 	if ((Controller != NULL) && (Value != 0.0f) && GetHasControl())
 	{
 		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// const FRotator Rotation = Controller->GetControlRotation();
+		// const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		// // get forward vector
+		// const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		const FVector Direction = FVector(1.f, 0.f, 0.f);
 		AddMovementInput(Direction, Value);
 	}
 }
@@ -161,11 +162,12 @@ void AMyBuilderCharacter::MoveRight(float Value)
 	if ( (Controller != NULL) && (Value != 0.0f) & GetHasControl())
 	{
 		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// const FRotator Rotation = Controller->GetControlRotation();
+		// const FRotator YawRotation(0, Rotation.Yaw, 0);
 	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// // get right vector 
+		// const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		const FVector Direction = FVector(0.f, 1.f, 0.f);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
