@@ -6,11 +6,12 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "IGetHit.h"
+#include "CastProjectile.h"
 #include "MyBlueprintFunctionLibrary.h"
 #include "MyBuilderCharacter.generated.h"
 
 UCLASS(config=Game)
-class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, public IIGetHit
+class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, public IIGetHit, public ICastProjectile
 {
 	GENERATED_BODY()
 
