@@ -37,5 +37,7 @@ public:
 	bool IsAlive();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
 	void OnHitPause(float Duration);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GetHit")
+	int GetTeam();
 
 };
