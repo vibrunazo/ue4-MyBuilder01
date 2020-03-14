@@ -13,6 +13,7 @@
 #include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
 #include "GameFramework/PlayerController.h"
+#include "MyPlayerController.h"
 
 // #include "GameplayTagContainer.h"
 // #include "GameplayTags.h"
@@ -206,7 +207,7 @@ void AMyBuilderCharacter::OnDie_Implementation()
 	AController* MyController = GetController();
 	DetachFromControllerPendingDestroy();
 	StopAnimMontage();
-	APlayerController* Cont = Cast<APlayerController>(MyController);
+	AMyPlayerController* Cont = Cast<AMyPlayerController>(MyController);
 	if (Cont)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -214,6 +215,7 @@ void AMyBuilderCharacter::OnDie_Implementation()
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
 		Cont->Possess(MyPawn);
+		Cont->OnPlayerDead();
 	}
 }
 
