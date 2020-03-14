@@ -205,16 +205,16 @@ void AMyBuilderCharacter::OnDie_Implementation()
 	AbilitySystem->RemoveActiveEffectsWithTags(FGameplayTagContainer(MyTag));
 	DisableInput(nullptr);
 	AController* MyController = GetController();
-	DetachFromControllerPendingDestroy();
+	// DetachFromControllerPendingDestroy();
 	StopAnimMontage();
 	AMyPlayerController* Cont = Cast<AMyPlayerController>(MyController);
 	if (Cont)
 	{
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = this;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
-		Cont->Possess(MyPawn);
+		// FActorSpawnParameters SpawnParams;
+		// SpawnParams.Owner = this;
+		// SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		// APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		// Cont->Possess(MyPawn);
 		Cont->OnPlayerDead();
 	}
 }

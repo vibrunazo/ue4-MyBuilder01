@@ -15,7 +15,19 @@ class MYBUILDER_API AMyPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="Player")
+	AMyPlayerController();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Player")
 	void OnPlayerDead();
+	void OnPlayerDead_Implementation();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Player")
+	void OnWin();
+	void OnWin_Implementation();
+
+private:
+	void SpawnDefaultPawn();
+
+	TSubclassOf<APawn> DefaultPawnClass;
 	
 };
