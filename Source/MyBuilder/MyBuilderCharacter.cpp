@@ -206,13 +206,13 @@ void AMyBuilderCharacter::OnDie_Implementation()
 	AController* MyController = GetController();
 	DetachFromControllerPendingDestroy();
 	StopAnimMontage();
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
 	APlayerController* Cont = Cast<APlayerController>(MyController);
 	if (Cont)
 	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
 		Cont->Possess(MyPawn);
 	}
 }
