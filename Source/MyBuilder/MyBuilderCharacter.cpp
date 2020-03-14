@@ -10,6 +10,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
 #include "MyAttributeSet.h"
+#include "Engine/World.h"
+#include "UObject/ConstructorHelpers.h"
+#include "GameFramework/PlayerController.h"
 
 // #include "GameplayTagContainer.h"
 // #include "GameplayTags.h"
@@ -52,6 +55,9 @@ AMyBuilderCharacter::AMyBuilderCharacter()
 	// Our ability system component.
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 	AttributeSetBase = CreateDefaultSubobject<UMyAttributeSet>(TEXT("AttributeSetBase"));
+
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_MyDefaultPawn"));
+	DefaultPawnClass = PlayerPawnBPClass.Class;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -197,8 +203,18 @@ void AMyBuilderCharacter::OnDie_Implementation()
 	FGameplayTag MyTag = FGameplayTag::RequestGameplayTag(TEXT("control"));
 	AbilitySystem->RemoveActiveEffectsWithTags(FGameplayTagContainer(MyTag));
 	DisableInput(nullptr);
+	AController* MyController = GetController();
 	DetachFromControllerPendingDestroy();
 	StopAnimMontage();
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	APawn* MyPawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+	APlayerController* Cont = Cast<APlayerController>(MyController);
+	if (Cont)
+	{
+		Cont->Possess(MyPawn);
+	}
 }
 
 bool AMyBuilderCharacter::IsAlive_Implementation()
