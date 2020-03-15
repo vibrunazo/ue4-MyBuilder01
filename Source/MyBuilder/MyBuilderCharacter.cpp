@@ -201,6 +201,7 @@ void AMyBuilderCharacter::GiveAbilityWithInput(TSubclassOf<class UGameplayAbilit
 void AMyBuilderCharacter::OnDie_Implementation()
 {
 	// UE_LOG(LogTemp, Warning, TEXT("Died on CPP"));
+	OnDied.Broadcast(this);
 	FGameplayTag MyTag = FGameplayTag::RequestGameplayTag(TEXT("control"));
 	AbilitySystem->RemoveActiveEffectsWithTags(FGameplayTagContainer(MyTag));
 	DisableInput(nullptr);
@@ -217,6 +218,8 @@ void AMyBuilderCharacter::OnDie_Implementation()
 		// Cont->Possess(MyPawn);
 		Cont->OnPlayerDead();
 	}
+	DetachFromControllerPendingDestroy();
+	
 }
 
 bool AMyBuilderCharacter::IsAlive_Implementation()

@@ -3,6 +3,7 @@
 
 #include "MyPlayerController.h"
 #include "Engine/World.h"
+#include "GameFramework/Character.h"
 #include "UObject/ConstructorHelpers.h"
 
 AMyPlayerController::AMyPlayerController()
@@ -24,6 +25,11 @@ void AMyPlayerController::OnWin_Implementation()
 void AMyPlayerController::SpawnDefaultPawn()
 {
     APawn* MyPawn = GetPawn();
+    ACharacter* MyChar = Cast<ACharacter>(MyPawn);
+    if (MyChar)
+    {
+        MyChar->StopAnimMontage();
+    }
     MyPawn->DetachFromControllerPendingDestroy();
     FActorSpawnParameters SpawnParams;
     SpawnParams.Owner = this;

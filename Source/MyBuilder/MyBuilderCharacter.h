@@ -8,7 +8,11 @@
 #include "IGetHit.h"
 #include "CastProjectile.h"
 #include "MyBlueprintFunctionLibrary.h"
+#include "UObject/ObjectMacros.h"
 #include "MyBuilderCharacter.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FCharDeadSignature, AMyBuilderCharacter, OnDied, AActor*, DestroyedActor );
+// DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FActorDestroyedSignature, AActor, OnDestroyed, AActor*, DestroyedActor );
 
 UCLASS(config=Game)
 class AMyBuilderCharacter : public ACharacter, public IAbilitySystemInterface, public IIGetHit, public ICastProjectile
@@ -41,6 +45,9 @@ public:
 	void RemoveOneEffect(TSubclassOf<class UGameplayEffect> EffectClass);
 	UFUNCTION(BlueprintCallable, Category = Abilities)
 	void ActivateAbilityByInput(uint8 Index);
+
+	UPROPERTY(BlueprintAssignable, Category="Abilities")
+	FCharDeadSignature OnDied;
 
 	/** Our ability system */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
