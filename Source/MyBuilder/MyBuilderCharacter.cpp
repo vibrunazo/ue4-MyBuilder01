@@ -14,7 +14,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.h"
-
+#include "MyGameInstance.h"
 // #include "GameplayTagContainer.h"
 // #include "GameplayTags.h"
 
@@ -66,14 +66,15 @@ AMyBuilderCharacter::AMyBuilderCharacter()
 
 void AMyBuilderCharacter::BeginPlay()
 {
-   Super::BeginPlay();
-   if(AbilitySystem)
-   {
+	if(AbilitySystem)
+	{
     	for (auto &&Ability : Abilities)
 		{
 			GiveAbilityWithInput(Ability.AbilityClass, Ability.Input);
 		}
-   }
+	}
+	SetupStatsFromGameInstance();
+	Super::BeginPlay();
 }
 
 void AMyBuilderCharacter::Tick(float DeltaSeconds)
@@ -82,6 +83,21 @@ void AMyBuilderCharacter::Tick(float DeltaSeconds)
 	if (!InputEnabled()) return;
 	if (GetAbilityKeyDown(0)) ActivateAbilityByInput(0);
 	// AbilitySystem->TryActivateAbilityByClass(Abilities[0].Ability, true);
+}
+
+void AMyBuilderCharacter::SetupStatsFromGameInstance()
+{
+	UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance());
+	if (!ensure(GI != nullptr)) return;
+	if (GI->bInitialized && IsPlayerControlled())
+	{
+		AttributeSetBase->SetHealth(GI->PlayerHealth);
+	}
+	if (!GI->bInitialized && IsPlayerControlled())
+	{
+		GI->PlayerHealth = AttributeSetBase->GetHealth();
+		GI->bInitialized = true;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,9 @@
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "UObject/ConstructorHelpers.h"
+#include "MyGameInstance.h"
+#include "MyAttributeSet.h"
+#include "MyBuilderCharacter.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -14,11 +17,21 @@ AMyPlayerController::AMyPlayerController()
 
 void AMyPlayerController::OnPlayerDead_Implementation()
 {
+    UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance());
+    if (!ensure(GI != nullptr)) return;
+    GI->ResetValues();
     SpawnDefaultPawn();
 }
 
 void AMyPlayerController::OnWin_Implementation(FName NextLevel)
 {
+    APawn* MyPawn = GetPawn();
+    AMyBuilderCharacter* MyChar = Cast<AMyBuilderCharacter>(MyPawn);
+    if (!ensure(MyChar != nullptr)) return;
+    if (!ensure(MyChar->AttributeSetBase != nullptr)) return;
+    UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance());
+    if (!ensure(GI != nullptr)) return;
+    GI->PlayerHealth = MyChar->AttributeSetBase->GetHealth();
     SpawnDefaultPawn();
 }
 

@@ -107,6 +107,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 private:
+	void SetupStatsFromGameInstance();
+
 	TSubclassOf<APawn> DefaultPawnClass;
 };
 
