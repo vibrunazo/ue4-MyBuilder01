@@ -31,6 +31,7 @@ void AMyPlayerController::SpawnDefaultPawn()
         MyChar->StopAnimMontage();
     }
     MyPawn->DetachFromControllerPendingDestroy();
+    MyPawn->DisableInput(nullptr);
     FActorSpawnParameters SpawnParams;
     SpawnParams.Owner = this;
     SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

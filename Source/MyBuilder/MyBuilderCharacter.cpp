@@ -79,6 +79,7 @@ void AMyBuilderCharacter::BeginPlay()
 void AMyBuilderCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if (!InputEnabled()) return;
 	if (GetAbilityKeyDown(0)) ActivateAbilityByInput(0);
 	// AbilitySystem->TryActivateAbilityByClass(Abilities[0].Ability, true);
 }
