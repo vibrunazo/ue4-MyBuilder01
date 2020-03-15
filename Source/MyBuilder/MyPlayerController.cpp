@@ -17,7 +17,7 @@ void AMyPlayerController::OnPlayerDead_Implementation()
     SpawnDefaultPawn();
 }
 
-void AMyPlayerController::OnWin_Implementation()
+void AMyPlayerController::OnWin_Implementation(FName NextLevel)
 {
     SpawnDefaultPawn();
 }

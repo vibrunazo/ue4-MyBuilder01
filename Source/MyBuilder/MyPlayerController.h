@@ -22,8 +22,8 @@ public:
 	void OnPlayerDead_Implementation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Player")
-	void OnWin();
-	void OnWin_Implementation();
+	void OnWin(FName NextLevel);
+	void OnWin_Implementation(FName NextLevel);
 
 private:
 	void SpawnDefaultPawn();
