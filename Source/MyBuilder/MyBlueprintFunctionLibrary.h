@@ -32,5 +32,8 @@ UCLASS()
 class MYBUILDER_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+public:
+	UFUNCTION(BlueprintCallable, Category="BP Library")
+	static TArray<AActor*> GetActorsFromLevel(class ULevel* LoadedLevel);
 	
 };
