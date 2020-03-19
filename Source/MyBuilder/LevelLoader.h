@@ -17,10 +17,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="Level Loader")
-	ULevelStreaming* OnCreatedLevel(FName LevelName);
+	ULevelStreaming* OnBPCreateLevelByName(FName LevelName);
 
 	TArray<FAssetData> AssetDataList;
 	TArray<class URoomDataAsset*> RoomList;
+
+	UFUNCTION()
+	void OnNewLevelLoaded();
 
 
 

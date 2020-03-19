@@ -61,5 +61,13 @@ void ALevelLoader::GenerateRoom()
 {
 	URoomDataAsset* NewRoom = RoomList[FMath::RandRange(0, RoomList.Num() - 1)];
 
-	OnCreatedLevel(NewRoom->LevelAddress);
+	UE_LOG(LogTemp, Warning, TEXT("Generating new Room"));
+	ULevelStreaming* NewLevel = OnBPCreateLevelByName(NewRoom->LevelAddress);
+	NewLevel->OnLevelLoaded.AddDynamic(this, &ALevelLoader::OnNewLevelLoaded);
+	// BlockMesh->OnClicked.AddDynamic(this, &ATP_PuzzleBlock::BlockClicked);
+}
+
+void ALevelLoader::OnNewLevelLoaded()
+{
+	UE_LOG(LogTemp, Warning, TEXT("On New Level Loaded"));
 }
